@@ -12,11 +12,11 @@ from astropy.io import fits
 def getSpirePhotMaps(obsid, level='Level2', what='extd', cache=True, tmpDir=None):
     """
     Direct download of the HSA tar file using the tap interface
-    
+
     level - what level to extract, can be Level2, Level2_5 or Level3
     what - 'extd' for extended-source calibrated maps, 'psrc' for point-source
     cache - will check if votable or a tar files are already available in tmpDir
-    
+
     """
     if (level == 'Level3'):
         lx = '3'
@@ -35,6 +35,7 @@ def getSpirePhotMaps(obsid, level='Level2', what='extd', cache=True, tmpDir=None
     if os.path.isfile(tarFile) and cache:
         print (f'Found an already existing tar file for OBSID {obsid}. Will use it')
     else:
+        print ("Downloading products from the Herschel Science Archive. Please wait")
         tapRequest = URLbase + query
         r = requests.get(tapRequest)
         if (b'No results' in r.content):
@@ -54,4 +55,3 @@ def getSpirePhotMaps(obsid, level='Level2', what='extd', cache=True, tmpDir=None
                 maps[band] = xx
     #
     return maps
-
